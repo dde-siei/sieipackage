@@ -22,12 +22,16 @@ __version__ = "test1.0"
     SOFTWARE.
 '''
 
-import os, sys
+import os
+import sys
+import subprocess
+import platform
 import configparser
 import math
 import time
 import csv
 print(f'\n{__version__}\n')
+
 CONFIG_FILE = 'config.ini'
 config = configparser.ConfigParser()
 
@@ -52,13 +56,61 @@ else:
     config.read(CONFIG_FILE)
 
 # Example usage
-inFile = config['entrada']['root']
-acces = config['entrada']['second']
+#inFile = config['entrada']['root']
+#acces = config['entrada']['second']
+def ping_host(host, attempts=2, timeout=1000):
+    param_count = "-n" if platform.system().lower() == "windows" else "-c"
+    param_timeout = "-w" if platform.system().lower() == "windows" else "-W"
+    cmd = ["ping", param_count, str(attempts), param_timeout, str(timeout), host]
+
+    try:
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return result.returncode == 0
+    except Exception:
+        return False
+
+testmsg = [
+    'Getting User',
+    'Setting Root',
+    'Setting Folder',
+    'Connecting Host',
+    'Connecting SADT'
+]
+
+#inFile = None
+#acces = None
+
+# Proceso paso a paso con animación
+for i in range(1, 6):
+    sys.stdout.write("\r{:>15}{}".format(testmsg[i-1], "." * i))
+    match i:
+        case 1:
+            pass
+        case 2:
+            inFile = config['entrada']['root']
+            host = inFile.split("\\")[2] 
+        case 3:
+            acces = config['entrada']['second']
+        case 4:
+            if not ping_host(host):
+                print(f"\nFail Connection {host}")
+                sys.exit(1)
+        case 5:
+            try:
+                os.listdir(inFile)
+            except Exception:
+                print('\rFail Connection SADT !')
+                sys.exit(1)
+
+    time.sleep(2)
+    sys.stdout.flush()
+
+
+
+
 
 
 a = os.listdir(inFile)
-
-
 
 d = {
     'PN': 'Parque Nacional',
