@@ -1,5 +1,5 @@
 # coding=utf-8
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 ''' Copyright (c) 2025 Rolling Loayza
 
@@ -317,13 +317,15 @@ print('\n..guardado:',os.path.join(os.getcwd(),exname))
 
 lastversions = [key for key in jsonshaa[scriptname]]
 
+print('\n[ Estado de Script ]:\n')
+
 if __version__ == lastversions[-1]:
     if msginteg == 'Not Pass':
-        print(f'\nScript: {scriptname}.py Might Be Corrupted')
+        print(f'Script: {scriptname}.py Might Be Corrupted')
     else:
-        print('Script Run Properly')
+        print(f'Script: {scriptname}.py Run Properly')
 else:
-    print('Nueva Version Diponible')
+    print('Nueva Versión Diponible')
     print(scriptname, lastversions[-1])
     os.environ['flag'] = '0 1'
 
