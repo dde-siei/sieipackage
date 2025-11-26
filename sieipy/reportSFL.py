@@ -255,7 +255,7 @@ for root, dirs, files in os.walk(dd):
         indent = "│   " * (level - 1) + ("├── " if level > 0 else "")
         rowm.append(row)
         time.sleep(0.1)
-        print(f'{indent} {os.path.basename(root)}')
+        #print(f'{indent} {os.path.basename(root)}')
         fillwhite(row,level,'r')
         cell = ws.cell(row=row,column=level)
         cell.value = os.path.basename(root)
@@ -271,7 +271,7 @@ for root, dirs, files in os.walk(dd):
             rowm.append(row)
             file_indent = "│   " * level + ("├── " if n < len(files)-1 else "└── ")
             time.sleep(0.1)
-            print(f'{file_indent} {file}')
+            #print(f'{file_indent} {file}')
             if n < 1:
                 fillwhite(row,level, 'r')
             else:                
@@ -345,4 +345,5 @@ else:
     flag +='10'
 
 if len(flag) > 0: 
+
     tempfup(flag)
